@@ -1,0 +1,211 @@
+@import 'tailwindcss';
+
+/* Définition des polices */
+@font-face {
+  font-family: 'Silkscreen';
+  src: url('/fonts/Silkscreen/Silkscreen-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Silkscreen';
+  src: url('/fonts/Silkscreen/Silkscreen-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bebas Neue';
+  src: url('/fonts/Bebas_Neue/BebasNeue-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  /* Polices */
+  --font-family-sans: 'Silkscreen', monospace;
+  --font-family-display: 'Bebas Neue', sans-serif;
+  /* Palette de couleurs inspirée de l'affiche rétro du musée du jeu vidéo */
+  --color-bg: #000000; /* Noir */
+  --color-primary: #ff2a83; /* Rose fuchsia (coins supérieurs du logo) */
+  --color-white: #ffffff; /* Blanc (contours/texte) */
+  --color-border: white; /* Bordures noires comme le logo */
+  --color-secondary: #e83f36; /* Rouge brique (rangée rouge) */
+  --color-tertiary: #16b6e0; /* Cyan/bleu clair (case en bas à droite) */
+  --color-text: #ffffff; /* Texte par défaut sur fond sombre */
+  --color-accent: #f26d21; /* Orange vif (rangée orange) */
+  --color-valid: #16b6e0; /* Utiliser le cyan pour le succès/validation */
+  --color-brain: #f2a900; /* Jaune-orangé (transition vers le cyan) */
+  --color-error: #e83f36; /* Rouge */
+  --color-success: #16b6e0; /* Cyan */
+  --color-info: #16b6e0; /* Cyan */
+  --color-warning: #f2a900; /* Jaune-orangé */
+  --color-discord: #5468ff;
+  --color-discord-hover: #656c85cc;
+
+  /* Couleurs supplémentaires de l'affiche */
+  --color-yellow-neon: #f2a900; /* Jaune-orangé inspiré du logo */
+  --color-orange-bright: #f26d21; /* Orange vif */
+  --color-red-bright: #e83f36; /* Rouge du logo */
+  --color-green-bright: #27d17c; /* Vert optionnel pour états, discret */
+  --color-blue-dark: #0e0e10; /* Noir bleuté pour fonds alternatifs */
+  --color-gray-light: #d3d3d3; /* Gris clair pour fonds */
+  --color-gray-dark: #696969; /* Gris foncé */
+  --color-brown: #8b4513; /* Réserve (non utilisé dans le logo) */
+}
+
+@layer base {
+  html {
+    font-size: 16px;
+    font-family: 'Silkscreen', monospace;
+  }
+
+  body {
+    font-family: 'Silkscreen', monospace;
+  }
+
+  button {
+    @apply py-1 px-2 cursor-pointer outline-none bg-primary rounded p-1 text-black border-2 border-black font-bold;
+  }
+
+  button:hover {
+    @apply bg-[#ff5aa1] text-black border-black;
+  }
+
+  button:disabled {
+    @apply cursor-not-allowed opacity-50;
+  }
+
+  button.secondary {
+    @apply bg-secondary hover:bg-[#c22d26] text-white border-2 border-black font-bold;
+  }
+
+  button.secondary:disabled {
+    @apply cursor-not-allowed opacity-50 bg-secondary;
+  }
+
+  button.cancel {
+    @apply border-2 border-black bg-bg hover:border-secondary text-white hover:text-secondary font-bold;
+  }
+
+  button.cancel:disabled {
+    @apply cursor-not-allowed opacity-50 bg-gray-500;
+  }
+
+  button.headless {
+    @apply border-none bg-transparent p-0 text-primary;
+  }
+
+  select,
+  input[type='datetime-local'],
+  input[type='date'],
+  input[type='time'] {
+    @apply border border-border focus:border-primary rounded p-1 cursor-pointer text-border bg-bg;
+    width: max-content !important;
+    min-width: fit-content;
+  }
+
+  select,
+  ::picker(select) {
+    appearance: base-select;
+  }
+
+  select option::checkmark {
+    @apply hidden;
+  }
+  select option {
+    @apply cursor-pointer flex flex-col gap-2 items-start p-2 text-border;
+  }
+
+  select::picker(select) {
+    @apply my-1 rounded-md border border-border focus:border-primary bg-bg shadow-lg;
+  }
+
+  select option:focus {
+    @apply opacity-50;
+  }
+
+  select option:hover {
+    @apply bg-primary text-white transform  cursor-pointer;
+  }
+
+  textarea {
+    @apply border outline-none  border-border focus:border-primary rounded p-1 cursor-pointer text-primary bg-white min-w-full;
+    resize: none;
+  }
+
+  input {
+    @apply border outline-none  border-border focus:border-primary rounded p-1 cursor-pointer text-primary bg-white min-w-full;
+  }
+
+  a {
+    @apply text-primary;
+  }
+}
+
+@layer components {
+  .toast-enter {
+    @apply transform translate-x-full opacity-0;
+  }
+
+  .toast-enter-active {
+    @apply transform translate-x-0 opacity-100 transition-all duration-300 ease-out;
+  }
+
+  .toast-exit {
+    @apply transform translate-x-0 opacity-100;
+  }
+
+  .toast-exit-active {
+    @apply transform translate-x-full opacity-0 transition-all duration-300 ease-in;
+  }
+
+  .toast-slide-up {
+    @apply transform translate-y-full opacity-0;
+  }
+
+  .toast-slide-up-active {
+    @apply transform translate-y-0 opacity-100 transition-all duration-300 ease-out;
+  }
+
+  .html {
+    @apply max-w-[800px] mx-auto;
+  }
+
+  .html img {
+    @apply max-w-[500px] h-auto mx-auto m-2;
+  }
+
+  h1 {
+    @apply text-2xl font-bold mb-6 mt-4 text-primary;
+    font-family: 'Bebas Neue', sans-serif;
+  }
+
+  h2 {
+    @apply text-xl font-bold mb-6 mt-4;
+    font-family: 'Bebas Neue', sans-serif;
+  }
+
+  h3 {
+    @apply text-lg font-bold mb-6 mt-4;
+    font-family: 'Bebas Neue', sans-serif;
+  }
+
+  h4 {
+    @apply text-base font-bold mb-6 mt-4;
+    font-family: 'Bebas Neue', sans-serif;
+  }
+
+  p {
+    @apply mb-6;
+  }
+
+  /* Classe utilitaire pour Bebas Neue */
+  .font-display {
+    font-family: 'Bebas Neue', sans-serif;
+  }
+}
