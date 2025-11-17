@@ -1,14 +1,36 @@
-import { A } from "@solidjs/router"
+import { A, useParams } from "@solidjs/router"
 import { LangSelector } from "~/features/lang-selector/lang-selector"
 import { MiniGame } from "~/features/mini-game/mini-game"
 import { For, Show } from "solid-js"
 import { Logo } from "../Logo"
 
-const menuEntries = [
-  { label: "Accueil", href: "/" },
-  { label: "Billeterie", href: "/ticket" },
-  { label: "Infos pratiques", href: "/about" },
-  { label: "Évènements", href: "/about" },
+const menuEntries: { label: { fr: string; en: string }; href: string }[] = [
+  {
+    label:
+    {
+      fr: "Accueil",
+      en: "Home"
+    },
+    href: "/"
+  },
+  {
+    label: {
+      fr: "Billeterie",
+      en: "Ticket"
+    }, href: "/ticket"
+  },
+  {
+    label: {
+      fr: "Infos pratiques",
+      en: "Practical information"
+    }, href: "/about"
+  },
+  {
+    label: {
+      fr: "Évènements",
+      en: "Events"
+    }, href: "/about"
+  },
 ]
 
 type HeaderProps = {
@@ -16,6 +38,11 @@ type HeaderProps = {
   page?: string
 }
 export const Header = (props: HeaderProps) => {
+
+  const { lang } = useParams();
+
+
+
   return (
     <header
       data-with-game={props.withGame}
@@ -28,7 +55,9 @@ export const Header = (props: HeaderProps) => {
             </A>
             <nav class="sm:flex hidden items-center gap-4 text-text">
               <For each={menuEntries}>
-                {(entry) => <A href={entry.href} class="hover:text-primary text-text">{entry.label}</A>}
+                {(entry) => {
+                  return <A href={`/${lang}${entry.href}`} class="hover:text-primary text-text">{entry.label[lang as "fr" | "en"]}</A>;
+                }}
               </For>
             </nav>
           </div>

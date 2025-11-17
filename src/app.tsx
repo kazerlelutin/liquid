@@ -5,7 +5,7 @@ import { FileRoutes } from '@solidjs/start/router'
 import { Suspense } from 'solid-js'
 import './app.css'
 import { Modal } from '~/ui/Modal/Modal'
-import { Layout } from './ui/Layout/Layout'
+import { Layout } from '~/ui/Layout/Layout'
 
 export default function App() {
   return (

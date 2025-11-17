@@ -78,8 +78,6 @@ export const initGame = () => {
     // On utilise des chemins absolus (commençant par /) qui fonctionnent en dev et prod
     const rsrcs = ressources.map(r => {
       const src = `${window.location.protocol}//${window.location.host}/${r.src}`;
-
-
       return { ...r, src };
     });
 
