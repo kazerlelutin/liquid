@@ -6,8 +6,10 @@ import { Suspense } from 'solid-js'
 import './app.css'
 import { Modal } from '~/ui/Modal/Modal'
 import { Layout } from '~/ui/Layout/Layout'
+import schedulesCtrl from './features/schedules/schedules.ctrl'
 
 export default function App() {
+  schedulesCtrl()
   return (
     <Router
       root={(props) => (

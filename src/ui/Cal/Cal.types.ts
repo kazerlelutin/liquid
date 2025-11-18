@@ -7,7 +7,7 @@ export interface CalendarDay {
   date: Date
   isCurrentMonth: boolean
   isToday: boolean
-  isSelected: boolean
+  isDayOpen: boolean
   items: CalendarEvent[]
 }
 
@@ -43,6 +43,7 @@ export interface CalendarCtrlReturn {
   goToPrevious: () => void
   goToNext: () => void
   goToToday: () => void
+  canGoToPrevious: Accessor<boolean>
 
   calendarDays: Accessor<CalendarDay[]>
   currentMonthName: Accessor<string>

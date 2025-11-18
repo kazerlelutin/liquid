@@ -19,24 +19,26 @@ export const CalDay = (props: CalDayProps) => {
     props.onDayClick(props.day.date)
   }
 
-
   return (
-
     <Show
       when={isMobile()}
       fallback={
         /* Vue desktop */
         <div
           class="
-            p-2 border border-primary rounded-sm cursor-pointer hover:bg-primary
+            p-2 border border-primary rounded-sm cursor-pointer data-[open=true]:hover:bg-primary
             data-[current-month=false]:opacity-30
             data-[today=true]:text-accent data-[today=true]:border-accent data-[today=true]:bg-transparent 
             data-[selected=true]:bg-primary data-[selected=true]:border-primary
             data-[disabled=true]:opacity-50 data-[disabled=true]:cursor-not-allowed
+             data-[open=false]:border-transparent data-[open=false]:cursor-not-allowed
+             data-[open=false]:opacity-30
             "
           data-current-month={props.day.isCurrentMonth}
+
+          data-open={props.day.isDayOpen}
           data-today={props.day.isToday}
-          data-selected={props.day.isSelected}
+          data-selected={false}
           onClick={handleDayClick}
         >
           <div class="text-lg font-medium mb-1 flex items-center justify-center">
@@ -47,13 +49,17 @@ export const CalDay = (props: CalDayProps) => {
     >
       {/* Vue mobile avec ronds */}
       <div
-        class="aspect-square rounded-full flex flex-col items-center justify-center cursor-pointer hover:bg-primary 
-                 data-[current-month=false]:text-gray-400 data-[current-month=false]:bg-bg 
-                 data-[today=true]:bg-secondary data-[today=true]:border-secondary 
-                 data-[selected=true]:bg-primary data-[selected=true]:border-primary"
+        class="
+          aspect-square rounded-full flex flex-col items-center justify-center cursor-pointer data-[open=true]:cursor-pointer data-[open=true]:hover:bg-primary 
+        data-[current-month=false]:text-gray-400 data-[current-month=false]:bg-bg 
+        data-[today=true]:bg-secondary data-[today=true]:border-secondary
+        data-[selected=true]:bg-primary data-[selected=true]:border-primary
+          data-[open=false]:cursor-not-allowed data-[open=false]:opacity-30 data-[open=false]:text-gray-400
+        "
         data-current-month={props.day.isCurrentMonth}
         data-today={props.day.isToday}
-        data-selected={props.day.isSelected}
+        data-open={props.day.isDayOpen}
+        data-selected={false}
         onClick={handleDayClick}
       >
         {/* Numéro du jour */}

@@ -3,6 +3,7 @@ import { LangSelector } from "~/features/lang-selector/lang-selector"
 import { MiniGame } from "~/features/mini-game/mini-game"
 import { For, Show } from "solid-js"
 import { Logo } from "../Logo"
+import { DAYS_TEXT } from "../Cal/Cal.const"
 
 const menuEntries: { label: { fr: string; en: string }; href: string }[] = [
   {
@@ -39,7 +40,8 @@ type HeaderProps = {
 }
 export const Header = (props: HeaderProps) => {
 
-  const { lang } = useParams();
+  const params = useParams();
+  const lang = () => params.lang as keyof typeof DAYS_TEXT
 
 
 
@@ -56,7 +58,7 @@ export const Header = (props: HeaderProps) => {
             <nav class="sm:flex hidden items-center gap-4 text-text">
               <For each={menuEntries}>
                 {(entry) => {
-                  return <A href={`/${lang}${entry.href}`} class="hover:text-primary text-text">{entry.label[lang as "fr" | "en"]}</A>;
+                  return <A href={`/${lang()}${entry.href}`} class="hover:text-primary text-text">{entry.label[lang() as "fr" | "en"]}</A>;
                 }}
               </For>
             </nav>

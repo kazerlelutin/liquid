@@ -3,6 +3,7 @@ import { useParams } from "@solidjs/router"
 import type { CalendarView, CalendarDay, CalendarEvent, CalendarCtrlReturn } from "./Cal.types"
 import { langs } from "~/utils/langs"
 import { DAYS_TEXT } from "./Cal.const"
+import { schedules } from "~/features/schedules/schedules.store"
 const [view, setView] = createSignal<CalendarView>('month')
 const [selectedDate, setSelectedDate] = createSignal<Date>(new Date())
 const [items, setItems] = createSignal<CalendarEvent[]>([])
@@ -75,13 +76,20 @@ export function CalCtrl(): CalendarCtrlReturn {
   }
 
   const setSelectedDateWithURL = (newDate: Date) => {
+
+
+    newDate.setDate(1)
     setSelectedDate(newDate)
+
     updateQueryParams(view(), newDate)
   }
 
   const goToPrevious = () => {
     const current = selectedDate()
     const newDate = new Date(current)
+    if (newDate.getMonth() < current.getMonth()) {
+      return
+    }
     newDate.setMonth(current.getMonth() - 1)
     setSelectedDateWithURL(newDate)
   }
@@ -107,15 +115,37 @@ export function CalCtrl(): CalendarCtrlReturn {
 
     const days: CalendarDay[] = []
 
+    const museumSchedule = schedules()
     for (let i = 0; i < 42; i++) {
       const date = new Date(startDate)
       date.setDate(startDate.getDate() + i)
+
+      const isOpen = () => {
+        if (date < selectedDate()) {
+          return false
+        }
+        let isOpen = false
+        isOpen = museumSchedule.some(schedule => isSameDay(new Date(schedule.start_date), date))
+        if (isOpen) {
+          return true
+        }
+        isOpen = museumSchedule.some(schedule => isSameDay(new Date(schedule.end_date), date))
+        if (isOpen) {
+          return true
+        }
+        isOpen = museumSchedule.some(schedule => !schedule.is_exception && schedule.day_of_week === date.getDay())
+        if (isOpen) {
+          return true
+        }
+        return false
+      }
+
 
       days.push({
         date,
         isCurrentMonth: date.getMonth() === month,
         isToday: isSameDay(date, today),
-        isSelected: isSameDay(date, selectedDate()),
+        isDayOpen: isOpen(),
         items: []
       })
     }
@@ -132,6 +162,10 @@ export function CalCtrl(): CalendarCtrlReturn {
   const formatDate = (date: Date): string => {
     return date.getDate().toString()
   }
+
+  const canGoToPrevious = createMemo(() => {
+    return selectedDate() < new Date()
+  })
 
 
   const calendarDays = createMemo((): CalendarDay[] => {
@@ -167,6 +201,7 @@ export function CalCtrl(): CalendarCtrlReturn {
     view,
     selectedDate,
 
+
     // Actions
     setView: setViewWithURL,
     setSelectedDate: setSelectedDateWithURL,
@@ -182,6 +217,7 @@ export function CalCtrl(): CalendarCtrlReturn {
     currentMonthName,
     currentYear,
     weekDays,
+    canGoToPrevious,
 
     // Utilitaires
     formatDate

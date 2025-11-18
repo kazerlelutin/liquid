@@ -8,7 +8,8 @@ interface CalProps {
 }
 
 export function Cal(props: CalProps) {
-  const calendar = CalCtrl()
+  const calendar = CalCtrl();
+
 
   return (
     <div class="flex flex-col items-center justify-baseline gap-4">

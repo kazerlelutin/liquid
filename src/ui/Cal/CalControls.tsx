@@ -10,6 +10,7 @@ export const CalControls = () => {
         onClick={calendar.goToPrevious}
         class="headless"
         title="Mois précédent"
+        disabled={calendar.canGoToPrevious()}
       >
         <Chevron direction="left" size={40} />
       </button>

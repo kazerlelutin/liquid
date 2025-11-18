@@ -6,7 +6,7 @@ export interface CalDayProps {
     date: Date
     isCurrentMonth: boolean
     isToday: boolean
-    isSelected: boolean
+    isDayOpen: boolean
     items: CalendarEvent[]
   }
   view: CalendarView
