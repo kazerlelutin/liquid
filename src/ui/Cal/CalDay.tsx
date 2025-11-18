@@ -1,4 +1,4 @@
-import { For, Show, createSignal, onMount } from "solid-js"
+import { Show, createSignal, onMount } from "solid-js"
 import type { CalDayProps } from "./CalDay.types"
 
 export const CalDay = (props: CalDayProps) => {
@@ -21,125 +21,47 @@ export const CalDay = (props: CalDayProps) => {
 
 
   return (
+
     <Show
-      when={props.view === 'month'}
+      when={isMobile()}
       fallback={
-        // Vue semaine/jour : affichage avec heures
-        <div class="border border-gray-200 rounded-sm ">
-          {/* Header du jour */}
-          <div
-            class="
-              p-2 border-b border-primary cursor-pointer hover:bg-gray-50
-            data-[current-month=false]:text-gray-400 data-[current-month=false]:bg-bg 
-            data-[today=true]:bg-blue-50 data-[today=true]:border-primary 
-            data-[selected=true]:bg-blue-100 data-[selected=true]:border-primary
-              data-[disabled=true]:opacity-50 data-[disabled=true]:cursor-not-allowed
-            "
-            data-current-month={props.day.isCurrentMonth}
-            data-today={props.day.isToday}
-            data-selected={props.day.isSelected}
-            onClick={handleDayClick}
-          >
-            <div class="text-sm font-medium">
-              {props.formatDate(props.day.date)}
-            </div>
-          </div>
-        </div>
-      }
-    >
-      {/* Vue mois */}
-      <Show
-        when={isMobile()}
-        fallback={
-          /* Vue desktop */
-          <div
-            class="
-            p-2 border border-primary rounded-sm cursor-pointer hover:bg-gray-50
+        /* Vue desktop */
+        <div
+          class="
+            p-2 border border-primary rounded-sm cursor-pointer hover:bg-primary
             data-[current-month=false]:opacity-30
-            data-[today=true]:text-accent data-[today=true]:border-accent 
+            data-[today=true]:text-accent data-[today=true]:border-accent data-[today=true]:bg-transparent 
             data-[selected=true]:bg-primary data-[selected=true]:border-primary
             data-[disabled=true]:opacity-50 data-[disabled=true]:cursor-not-allowed
             "
-            data-current-month={props.day.isCurrentMonth}
-            data-today={props.day.isToday}
-            data-selected={props.day.isSelected}
-            onClick={handleDayClick}
-          >
-            <div class="text-lg font-medium mb-1 flex items-center justify-center">
-              {props.formatDate(props.day.date)}
-            </div>
-
-            <div class="space-y-1">
-              <For each={props.day.items}>
-                {(item) => (
-                  <div
-                    class={`text-xs p-1 rounded cursor-pointer ${props.highlightedEventId === item.id ? 'ring-2 ring-yellow-400 animate-pulse' : ''
-                      }`}
-                    style={{
-                      'background-color': item.color ? `${item.color}20` : '#dbeafe',
-                      'color': item.color || '#1e40af',
-                      'border-left': `3px solid ${item.color || '#3b82f6'}`
-                    }}
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      props.onItemClick?.(item)
-                    }}
-                  >
-                    <Show when={props.renderItem}>
-                      {props.renderItem!(item, props.day.date)}
-                    </Show>
-                    <Show when={!props.renderItem}>
-                      <div class="font-medium">{item.title}</div>
-                      <Show when={item.description}>
-                        <div class="text-xs opacity-75">{item.description}</div>
-                      </Show>
-                    </Show>
-                  </div>
-                )}
-              </For>
-            </div>
-          </div>
-        }
-      >
-        {/* Vue mobile avec ronds */}
-        <div
-          class="aspect-square rounded-full flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 
-                 data-[current-month=false]:text-gray-400 data-[current-month=false]:bg-bg 
-                 data-[today=true]:bg-blue-50 data-[today=true]:border-primary 
-                 data-[selected=true]:bg-blue-100 data-[selected=true]:border-primary"
           data-current-month={props.day.isCurrentMonth}
           data-today={props.day.isToday}
           data-selected={props.day.isSelected}
           onClick={handleDayClick}
         >
-          {/* Numéro du jour */}
-          <div class="text-sm font-medium mb-1">
+          <div class="text-lg font-medium mb-1 flex items-center justify-center">
             {props.formatDate(props.day.date)}
           </div>
-
-          {/* Ronds pour les événements */}
-          <div class="flex flex-wrap justify-center gap-1">
-            <For each={props.day.items.slice(0, 3)}>
-              {(item) => (
-                <div
-                  class="w-2 h-2 rounded-full cursor-pointer hover:opacity-80"
-                  style={{
-                    'background-color': item.color || '#3b82f6'
-                  }}
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    props.onItemClick?.(item)
-                  }}
-                  title={item.title}
-                />
-              )}
-            </For>
-            <Show when={props.day.items.length > 3}>
-              <div class="w-2 h-2 rounded-full bg-gray-400" title={`+${props.day.items.length - 3} autres`} />
-            </Show>
-          </div>
         </div>
-      </Show>
+      }
+    >
+      {/* Vue mobile avec ronds */}
+      <div
+        class="aspect-square rounded-full flex flex-col items-center justify-center cursor-pointer hover:bg-primary 
+                 data-[current-month=false]:text-gray-400 data-[current-month=false]:bg-bg 
+                 data-[today=true]:bg-secondary data-[today=true]:border-secondary 
+                 data-[selected=true]:bg-primary data-[selected=true]:border-primary"
+        data-current-month={props.day.isCurrentMonth}
+        data-today={props.day.isToday}
+        data-selected={props.day.isSelected}
+        onClick={handleDayClick}
+      >
+        {/* Numéro du jour */}
+        <div class="text-sm font-medium mb-1">
+          {props.formatDate(props.day.date)}
+        </div>
+      </div>
     </Show>
+
   )
 }

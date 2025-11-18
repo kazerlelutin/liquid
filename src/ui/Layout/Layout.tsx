@@ -14,7 +14,7 @@ export const Layout = (props: LayoutProps) => {
   const [page, setPage] = createSignal('')
   createEffect(() => {
     setPage(location.pathname.split('/')[2])
-    if (page() === undefined || page() === 'game') {
+    if (!page() || page() === 'game') {
       setWithGame(true)
     } else {
       setWithGame(false)

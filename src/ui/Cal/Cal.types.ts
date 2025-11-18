@@ -48,7 +48,6 @@ export interface CalendarCtrlReturn {
   currentMonthName: Accessor<string>
   currentYear: Accessor<number>
   weekDays: Accessor<string[]>
-  listEvents: () => CalendarEvent[]
 
   formatDate: (date: Date) => string
 }

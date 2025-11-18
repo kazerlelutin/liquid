@@ -9,7 +9,8 @@ export const LangSelector = () => {
   const [selectedLang, setSelectedLang] = createSignal('');
 
   const changeLang = (lang: "fr" | "en") => {
-    navigate(path.pathname.replace(langParams || '', lang));
+    navigate(path.pathname.replace(selectedLang() || '', lang) + window.location.search);
+    setSelectedLang(lang);
   }
   onMount(() => {
     setSelectedLang(langParams);

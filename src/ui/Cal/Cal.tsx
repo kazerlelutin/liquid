@@ -4,7 +4,6 @@ import { CalDay } from "./CalDay"
 import { CalControls } from "./CalControls"
 
 interface CalProps {
-
   onDayClick?: (day: Date) => void
 }
 
@@ -17,7 +16,7 @@ export function Cal(props: CalProps) {
       <div
         class="grid gap-3 grid-cols-7"
       >
-        <For each={['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim']}>
+        <For each={calendar.weekDays()}>
           {(day) => (
             <div class="text-lg font-medium mb-1 flex items-center justify-center">
               {day}
